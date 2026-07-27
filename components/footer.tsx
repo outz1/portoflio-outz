@@ -8,15 +8,15 @@ import { ArrowUpRight } from "lucide-react"
 const socialLinks = [
   {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/seu-usuario",
+    href: "https://www.linkedin.com/in/duebrits-dev/",
   },
   {
     name: "GitHub",
-    href: "https://github.com/seu-usuario",
+    href: "https://github.com/outz1",
   },
   {
-    name: "Twitter",
-    href: "https://twitter.com/seu-usuario",
+    name: "E-mail",
+    href: "mailto:du.ebrits@gmail.com",
   },
 ];
 
@@ -94,7 +94,7 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <div className="flex gap-8">
+          <div id='contact' className="flex gap-8">
             {socialLinks.map((link) => (
               <a
                 key={link.name}
