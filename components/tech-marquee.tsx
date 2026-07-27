@@ -1,45 +1,54 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 const techItems = [
-  "NEXT.JS",
-  "REACT",
   "TYPESCRIPT",
+  "JAVASCRIPT",
   "PYTHON",
-  "PYTORCH",
-  "LATENCY",
-  "INTUITION",
-  "OPENAI",
-  "EMPATHY",
-  "WEBGL",
+  "REACT",
+  "NEXT.JS",
   "NODE.JS",
-  "PRECISION",
-]
+  "TAILWINDCSS",
+  "REST API",
+  "JWT",
+  "SQL",
+  "SWAGGER",
+  "OPEN API",
+];
 
 const concepts = [
-  "ARCHITECTURE",
-  "SYSTEMS",
-  "INTERFACES",
-  "ALGORITHMS",
-  "EMERGENCE",
-  "COGNITION",
-  "SYNTHESIS",
-  "VELOCITY",
-  "ENTROPY",
-  "FLUX",
-  "AXIOM",
-  "TENSOR",
-]
+  "GIT",
+  "GITFLOW",
+  "DOCKER",
+  "LINUX",
+  "POSTMAN",
+  "DBEAVER",
+  "UI/UX",
+  "SEO",
+  "REDIS",
+  "SHADCN",
+];
 
-function MarqueeRow({ items, direction = "left" }: { items: string[]; direction?: "left" | "right" }) {
-  const duplicatedItems = [...items, ...items, ...items, ...items]
+function MarqueeRow({
+  items,
+  direction = "left",
+  duration = 40,
+}: {
+  items: string[];
+  direction?: "left" | "right";
+  duration?: number;
+}) {
+  const duplicatedItems = [...items, ...items, ...items, ...items];
 
   return (
     <div className="relative overflow-hidden py-4">
       <motion.div
         className={`flex gap-8 ${direction === "left" ? "animate-marquee-left" : "animate-marquee-right"}`}
-        style={{ width: "fit-content" }}
+        style={{
+          width: "fit-content",
+          animationDuration: `${duration}s`,
+        }}
       >
         {duplicatedItems.map((item, index) => (
           <span
@@ -48,15 +57,16 @@ function MarqueeRow({ items, direction = "left" }: { items: string[]; direction?
             style={{
               WebkitTextStroke: "1px rgba(255,255,255,0.3)",
               color: "transparent",
-              transition: "all 0.3s ease",
+              transition: "all 1s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.color = "white"
-              e.currentTarget.style.WebkitTextStroke = "none"
+              e.currentTarget.style.color = "white";
+              e.currentTarget.style.webkitTextStroke = "none";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = "transparent"
-              e.currentTarget.style.WebkitTextStroke = "1px rgba(255,255,255,0.3)"
+              e.currentTarget.style.color = "transparent";
+              e.currentTarget.style.webkitTextStroke =
+                "1px rgba(255,255,255,0.3)";
             }}
           >
             {item}
@@ -65,7 +75,7 @@ function MarqueeRow({ items, direction = "left" }: { items: string[]; direction?
         ))}
       </motion.div>
     </div>
-  )
+  );
 }
 
 export function TechMarquee() {
@@ -76,17 +86,20 @@ export function TechMarquee() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 2 }}
         className="px-8 md:px-12 mb-16"
       >
-        <p className="font-mono text-xs tracking-[0.3em] text-muted-foreground mb-4">05 — TECHNICAL ARSENAL</p>
+        <p className="font-mono text-lg tracking-[0.3em] text-muted-foreground mb-4">
+          {" "}
+          skills
+        </p>
       </motion.div>
 
       {/* Marquee Rows */}
       <div className="space-y-4">
-        <MarqueeRow items={techItems} direction="left" />
-        <MarqueeRow items={concepts} direction="right" />
+        <MarqueeRow items={techItems} duration={70} direction="left" />
+        <MarqueeRow items={concepts} duration={70} direction="right" />
       </div>
     </section>
-  )
+  );
 }

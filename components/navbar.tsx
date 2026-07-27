@@ -4,9 +4,9 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Works", href: "#works" },
-  { label: "Contact", href: "#contact" },
+  { label: "Sobre", href: "#about" },
+  { label: "Portolio", href: "#works" },
+  { label: "Contato", href: "#contact" },
 ]
 
 export function Navbar() {
@@ -49,8 +49,7 @@ export function Navbar() {
             }}
             className="group flex items-center gap-2"
           >
-            <span className="font-mono text-xs tracking-widest text-muted-foreground">PORTFOLIO</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-accent group-hover:scale-150 transition-transform duration-300" />
+            <span className="font-mono text-lg tracking-widest text-muted-foreground">&lt;/&gt;</span>
           </a>
 
           {/* Desktop Navigation */}

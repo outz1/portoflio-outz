@@ -4,11 +4,12 @@ import { useRef } from "react"
 import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 
 const statements = [
-  "I build products that think alongside humans.",
-  "Design systems that adapt and evolve.",
-  "Interfaces should feel inevitable.",
-  "Every interaction is a conversation.",
-  "Code is just crystallized thought.",
+  "Toda funcionalidade começa com um problema bem entendido.",
+  "Quebre o problema em partes menores.",
+  "A simplicidade é resultado de boas decisões.",
+  "Boas interfaces tornam a complexidade invisível.",
+  "Segurança não é um diferencial, é um requisito.",
+  "Toda funcionalidade começa com um problema bem entendido.",
 ]
 
 export function About() {
@@ -31,8 +32,8 @@ export function About() {
         transition={{ duration: 0.8 }}
         className="px-8 md:px-12 mb-0 py-20"
       >
-        <p className="font-mono text-xs tracking-[0.3em] text-muted-foreground mb-4">03 — PHILOSOPHY</p>
-        <h2 className="font-sans text-3xl md:text-5xl font-light italic">Stream of Consciousness</h2>
+        <p className="font-mono text-xs tracking-[0.3em] text-muted-foreground mb-4">visão</p>
+        <h2 className="font-sans text-3xl md:text-5xl font-light italic">UM POUCO SOBRE O QUE PENSO</h2>
       </motion.div>
 
       {/* Horizontal Scroll Container */}
