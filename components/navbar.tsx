@@ -60,7 +60,7 @@ export function Navbar() {
                   onClick={() => scrollToSection(link.href)}
                   className="group relative font-mono text-xs tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-300"
                 >
-                  <span className="text-accent mr-1">0{index + 1}</span>
+                  <span className="text-[#ff5f1f] mr-1">0{index + 1}</span>
                   {link.label.toUpperCase()}
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground group-hover:w-full transition-all duration-300" />
                 </button>
@@ -71,10 +71,10 @@ export function Navbar() {
           {/* Status Indicator */}
           <div className="hidden md:flex items-center gap-3">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5f1f] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dbdbdb]" />
             </span>
-            <span className="font-mono text-xs tracking-wider text-muted-foreground">AVAILABLE FOR WORK</span>
+            <span className="font-mono text-xs tracking-wider text-muted-foreground">disponível</span>
           </div>
 
           {/* Mobile Menu Button */}
@@ -120,7 +120,7 @@ export function Navbar() {
                   onClick={() => scrollToSection(link.href)}
                   className="group text-4xl font-sans tracking-tight text-foreground"
                 >
-                  <span className="text-accent font-mono text-sm mr-2">0{index + 1}</span>
+                  <span className="text-[#ff5f1f] font-mono text-sm mr-2">0{index + 1}</span>
                   {link.label}
                 </motion.button>
               ))}
@@ -130,11 +130,7 @@ export function Navbar() {
                 transition={{ delay: 0.4 }}
                 className="flex items-center gap-3 mt-8"
               >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-                </span>
-                <span className="font-mono text-xs tracking-wider text-muted-foreground">AVAILABLE FOR WORK</span>
+
               </motion.div>
             </nav>
           </motion.div>
