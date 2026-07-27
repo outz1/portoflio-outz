@@ -4,6 +4,23 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 
+
+const socialLinks = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/seu-usuario",
+  },
+  {
+    name: "GitHub",
+    href: "https://github.com/seu-usuario",
+  },
+  {
+    name: "Twitter",
+    href: "https://twitter.com/seu-usuario",
+  },
+];
+
+
 export function Footer() {
   const [time, setTime] = useState("")
   const [isHovered, setIsHovered] = useState(false)
@@ -27,7 +44,7 @@ export function Footer() {
     <footer className="relative">
       {/* Main CTA */}
       <motion.a
-        href="mailto:hello@example.com"
+        href="mailto:du.ebrits@gmail.com"
         data-cursor-hover
         className="relative block overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
@@ -35,7 +52,7 @@ export function Footer() {
       >
         {/* Background Curtain */}
         <motion.div
-          className="absolute inset-0 bg-[#2563eb]"
+          className="absolute inset-0 bg-[#FF5F1F]"
           initial={{ y: "100%" }}
           animate={{ y: isHovered ? "0%" : "100%" }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -78,20 +95,22 @@ export function Footer() {
 
           {/* Links */}
           <div className="flex gap-8">
-            {["LinkedIn", "GitHub", "Twitter"].map((link) => (
+            {socialLinks.map((link) => (
               <a
-                key={link}
-                href="#"
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 data-cursor-hover
-                className="font-mono text-xs tracking-widest text-muted-foreground hover:text-white transition-colors duration-300"
+                className="font-mono text-xs tracking-widest text-muted-foreground  hover:text-[#FF5F1F] transition-colors duration-300"
               >
-                {link}
+                {link.name}
               </a>
             ))}
           </div>
 
           {/* Copyright */}
-          <p className="font-mono text-xs tracking-widest text-muted-foreground">© {new Date().getFullYear()}</p>
+          <p className="font-mono text-xs tracking-widest text-muted-foreground">© {new Date().getFullYear()} outz.dev</p>
         </div>
       </div>
     </footer>
