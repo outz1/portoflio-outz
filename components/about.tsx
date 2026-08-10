@@ -1,67 +1,67 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useScroll, useTransform, useSpring } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
-const statements = [
-  "Toda funcionalidade começa com um problema bem entendido.",
-  "Quebre o problema em partes menores.",
-  "A simplicidade é resultado de boas decisões.",
-  "Boas interfaces tornam a complexidade invisível.",
-  "Segurança não é um diferencial, é um requisito.",
-  "Toda funcionalidade começa com um problema bem entendido.",
+const principles = [
+  "Problemas bem entendidos.",
+  "Interfaces que impactam.",
+  "Arquitetura sustentável.",
+  "Segurança desde o início.",
 ]
 
 export function About() {
-  const containerRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"])
-  const smoothX = useSpring(x, { stiffness: 100, damping: 30 })
+  const reduceMotion = useReducedMotion()
 
   return (
-    <section id="about" ref={containerRef} className="relative py-32 overflow-hidden md:py-0">
-      {/* Section Header */}
+    <section id="about" className="relative overflow-hidden px-8 py-24 md:px-12 md:py-32">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.8 }}
-        className="px-8 md:px-12 mb-0 py-20"
       >
-        <p className="font-mono text-xs tracking-[0.3em] text-muted-foreground mb-4">visão</p>
-        <h2 className="font-sans text-3xl md:text-5xl font-light italic">UM POUCO SOBRE O QUE PENSO</h2>
+        <p className="mb-4 font-mono text-xs tracking-[0.3em] text-muted-foreground">sobre</p>
+        <h2 className="max-w-4xl font-sans text-3xl font-light italic md:text-5xl">
+          ENTRE PRODUTO, CÓDIGO E SEGURANÇA
+        </h2>
       </motion.div>
 
-      {/* Horizontal Scroll Container */}
-      <div className="relative flex items-center overflow-hidden py-0 gap-0 h-16">
-        <motion.div style={{ x: smoothX }} className="flex gap-16 md:gap-24 px-8 md:px-12 whitespace-nowrap">
-          {statements.map((statement, index) => (
-            <motion.p
-              key={index}
-              className="text-4xl md:text-6xl lg:text-7xl font-sans font-light tracking-tight text-white/90"
-              style={{
-                WebkitTextStroke: index % 2 === 0 ? "none" : "1px rgba(255,255,255,0.3)",
-                color: index % 2 === 0 ? "inherit" : "transparent",
-              }}
-            >
-              {statement}
-            </motion.p>
-          ))}
+      <div className="mt-16 grid gap-10 border-t border-white/10 pt-10 md:grid-cols-[0.7fr_1.3fr] md:gap-20 md:pt-14">
+        <p className="font-mono text-xs leading-relaxed tracking-[0.18em] text-[#FF5F1F]">
+          FULL STACK DEVELOPMENT
+          <br />
+          &amp; APPLICATION SECURITY
+        </p>
+
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="space-y-6"
+        >
+          <p className="max-w-3xl font-sans text-2xl font-light leading-snug text-white/90 md:text-4xl">
+            Sou desenvolvedor Full Stack com experiência na construção de aplicações web,
+            APIs e automações, conectando decisões técnicas às necessidades reais de cada produto.
+          </p>
+          <p className="max-w-2xl font-mono text-sm leading-relaxed text-muted-foreground">
+            Minha trajetória inclui desenvolvimento, liderança técnica e colaboração em equipe.
+            Atualmente aprofundo meus estudos em arquitetura e segurança de aplicações para criar
+            sistemas mais confiáveis, performáticos e fáceis de manter.
+          </p>
         </motion.div>
       </div>
 
-      {/* Decorative Line */}
-      <motion.div
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="mt-16 mx-8 md:mx-12 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent origin-left"
-      />
+      <div className="mt-16 grid border-l border-t border-white/10 sm:grid-cols-2 lg:grid-cols-4">
+        {principles.map((principle, index) => (
+          <div key={principle} className="border-b border-r border-white/10 p-5 md:p-6">
+            <span className="font-mono text-[10px] tracking-widest text-muted-foreground">
+              0{index + 1}
+            </span>
+            <p className="mt-8 font-sans text-xl font-light italic text-white/80">{principle}</p>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }

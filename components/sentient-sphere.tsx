@@ -66,7 +66,7 @@ const NOISE_GLSL = `
 // faces) and would hang or crash the tab. Detail 5 gives a dense-looking
 // wireframe (~20k faces) at a cost that runs fine even on integrated/low-end
 // GPUs. Bump to 6 only if you've profiled headroom.
-const SPHERE_DETAIL = 5
+const SPHERE_DETAIL = 4
 
 function Sphere() {
   const meshRef = useRef<Mesh>(null)
@@ -218,7 +218,7 @@ export function SentientSphere() {
       camera={{ position: [0, 0, 5], fov: 45 }}
       className="w-full my-0 h-full py-0"
       // capped dpr keeps fragment cost sane on high-density/retina screens
-      dpr={[1, 1.5]}
+      dpr={[1, 1.25]}
       gl={{
         antialias: false,
         alpha: true,

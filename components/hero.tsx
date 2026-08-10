@@ -1,81 +1,113 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
+import { ArrowDownRight, Check, Copy } from "lucide-react"
 import { SentientSphere } from "./sentient-sphere"
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null)
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [copied, setCopied] = useState(false)
+  const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   })
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8])
+  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, reduceMotion ? 1 : 0])
+  const scale = useTransform(scrollYProgress, [0, 0.55], [1, reduceMotion ? 1 : 0.92])
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+    }
+  }, [])
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText("du.ebrits@gmail.com")
+    setCopied(true)
+
+    if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+    copyTimeoutRef.current = setTimeout(() => setCopied(false), 2400)
+  }
+
+  const scrollToProjects = () => {
+    document.getElementById("works")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" })
+  }
 
   return (
-    <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-[#050505]">
-      {/* 3D Sphere Background */}
-      <div className="absolute inset-0">
+    <section ref={containerRef} className="relative min-h-svh w-full overflow-hidden bg-[#050505]">
+      <div className="absolute inset-0" aria-hidden="true">
         <SentientSphere />
       </div>
 
-      {/* Typography Overlay */}
-      <motion.div style={{ opacity, scale }} className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12 md:px-12 md:py-20">
-        {/* Top Left */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          <h2 className="font-sans text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-balance">
-            Eduardo
-            <br />
-            <span className="italic">de Brito Soares</span>
-          </h2>
-        </motion.div>
-
-        {/* Center Button */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
-        >
-
-        </motion.div>
-
-        {/* Bottom Right */}
-        <motion.div
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="self-end text-right"
-        >
-          <h2 className="font-sans text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-balance select-none text-">
-            Fullstack
-            <br />
-            <span className="italic">DEVELOPER</span>
-          <p className="font-mono text-sm tracking-[0.3em] text-muted-foreground mb-2 mt-3 select-none text-">& cybersecurity enthuasiast</p> 
-          </h2>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll Indicator */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        style={{ opacity, scale }}
+        className="pointer-events-none relative z-10 flex min-h-svh flex-col justify-between px-8 pb-10 pt-24 md:px-12 md:pb-12 md:pt-28"
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2"
+          initial={reduceMotion ? false : { opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
         >
-          <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-white/50 to-transparent" />
+          <p className="mb-4 font-mono text-xs tracking-[0.25em] text-muted-foreground">
+            EDUARDO DE BRITO SOARES
+          </p>
+          <h1 className="max-w-5xl text-balance font-sans text-5xl font-light leading-[0.98] tracking-tight md:text-7xl lg:text-8xl">
+            Full Stack Developer
+            <br />
+            <span className="italic text-white/65">com foco em software seguro.</span>
+          </h1>
+        </motion.div>
+
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.35 }}
+          className="ml-auto flex w-full max-w-2xl flex-col items-start gap-7 md:items-end"
+        >
+          <p className="max-w-xl font-mono text-sm leading-relaxed text-muted-foreground md:text-right md:text-base">
+            Desenvolvo aplicações web completas, da interface à API, com foco em arquitetura,
+            performance e segurança.
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={scrollToProjects}
+              data-cursor-hover
+              className="pointer-events-auto group flex cursor-pointer items-center gap-3 border border-white/20 px-5 py-3 font-mono text-xs tracking-[0.16em] transition-colors hover:bg-white hover:text-[#050505]"
+            >
+              VER PROJETOS
+              <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+            </button>
+            <motion.button
+              type="button"
+              onClick={copyEmail}
+              data-cursor-hover
+              aria-label={copied ? "E-mail copiado" : "Copiar endereço de e-mail"}
+              aria-live="polite"
+              animate={{
+                backgroundColor: copied ? "#FF5F1F" : "rgba(0, 0, 0, 0)",
+                borderColor: copied ? "#FF5F1F" : "rgba(255, 255, 255, 0.15)",
+                color: copied ? "#050505" : "rgba(255, 255, 255, 0.7)",
+              }}
+              whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+              transition={{ duration: 0.25 }}
+              className="pointer-events-auto flex min-w-48 cursor-pointer items-center justify-center gap-3 border px-5 py-3 font-mono text-xs tracking-[0.16em] hover:border-white/35 hover:text-white"
+            >
+              <motion.span
+                key={copied ? "copied" : "copy"}
+                initial={reduceMotion ? false : { opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-3"
+              >
+                {copied ? "E-MAIL COPIADO" : "COPIAR E-MAIL"}
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              </motion.span>
+            </motion.button>
+          </div>
         </motion.div>
       </motion.div>
     </section>

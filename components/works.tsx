@@ -24,7 +24,7 @@ const projects = [
     type: "Experiência",
     link: "https://labex-website.vercel.app/",
     description:
-      "Aplicação web para uma empresa de medicina laboratorial, implementado com Next.js e deploy na Vercel. Foi utilizado conceitos de UI/UX design, SEO técnico e otimização de performance.",
+      "Desenvolvimento de uma aplicação web para uma empresa de medicina laboratorial, implementado com Next.js e deploy na Vercel. Foi utilizado conceitos de UI/UX design, SEO técnico e otimização de performance.",
   },
   {
     title: "Game Library",
@@ -183,34 +183,32 @@ export function Works() {
 
         {/* Floating Image */}
         <motion.div
-          className="absolute pointer-events-none z-50 w-64 h-40 md:w-80 md:h-48 overflow-hidden rounded-lg"
-          style={{
-            x: springX,
-            y: springY,
-            translateX: "-50%",
-            translateY: "-320%",
-          }}
-          animate={{
-            opacity: hoveredIndex !== null ? 1 : 0,
-            scale: hoveredIndex !== null ? 1 : 0.8,
-          }}
-          transition={{ duration: 0.2 }}
+          className="pointer-events-none absolute left-0 top-0 z-50 h-0 w-0"
+          style={{ x: springX, y: springY }}
         >
-          {hoveredIndex !== null && (
-            <motion.img
-              src={projects[hoveredIndex].image}
-              alt={projects[hoveredIndex].title}
-              className="w-full h-full object-cover"
-              initial={{ scale: 1.2 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.4 }}
-              style={{
-                filter: "grayscale(50%) contrast(1.1)",
-              }}
-            />
-          )}
-          {/* Glitch overlay */}
-          <div className="absolute inset-0 bg-[#2563eb]/10 mix-blend-overlay" />
+          <motion.div
+            className="absolute bottom-15 left-10 h-40 w-64 origin-bottom-right overflow-hidden rounded-lg md:h-48 md:w-80"
+            animate={{
+              opacity: hoveredIndex !== null ? 1 : 0,
+              scale: hoveredIndex !== null ? 1 : 0.8,
+            }}
+            transition={{ duration: 0.2 }}
+          >
+            {hoveredIndex !== null && (
+              <motion.img
+                src={projects[hoveredIndex].image}
+                alt={projects[hoveredIndex].title}
+                className="h-full w-full object-cover"
+                initial={{ scale: 1.2 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.4 }}
+                style={{
+                  filter: "grayscale(50%) contrast(1.1)",
+                }}
+              />
+            )}
+            <div className="absolute inset-0 bg-[#2563eb]/10 mix-blend-overlay" />
+          </motion.div>
         </motion.div>
       </div>
 

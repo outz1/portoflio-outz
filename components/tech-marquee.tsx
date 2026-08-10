@@ -1,105 +1,73 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion"
 
-const techItems = [
-  "TYPESCRIPT",
-  "JAVASCRIPT",
-  "PYTHON",
-  "REACT",
-  "NEXT.JS",
-  "NODE.JS",
-  "TAILWINDCSS",
-  "REST API",
-  "JWT",
-  "SQL",
-  "SWAGGER",
-  "OPEN API",
-];
-
-const concepts = [
-  "GIT",
-  "GITFLOW",
-  "DOCKER",
-  "LINUX",
-  "POSTMAN",
-  "DBEAVER",
-  "UI/UX",
-  "SEO",
-  "REDIS",
-  "SHADCN",
-];
-
-function MarqueeRow({
-  items,
-  direction = "left",
-  duration = 40,
-}: {
-  items: string[];
-  direction?: "left" | "right";
-  duration?: number;
-}) {
-  const duplicatedItems = [...items, ...items, ...items, ...items];
-
-  return (
-    <div className="relative overflow-hidden py-4">
-      <motion.div
-        className={`flex gap-8 ${direction === "left" ? "animate-marquee-left" : "animate-marquee-right"}`}
-        style={{
-          width: "fit-content",
-          animationDuration: `${duration}s`,
-        }}
-      >
-        {duplicatedItems.map((item, index) => (
-          <span
-            key={index}
-            className="group font-sans text-5xl md:text-7xl lg:text-8xl font-light tracking-tight whitespace-nowrap cursor-default"
-            style={{
-              WebkitTextStroke: "1px rgba(255,255,255,0.3)",
-              color: "transparent",
-              transition: "all 1s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "white";
-              e.currentTarget.style.webkitTextStroke = "none";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "transparent";
-              e.currentTarget.style.webkitTextStroke =
-                "1px rgba(255,255,255,0.3)";
-            }}
-          >
-            {item}
-            <span className="mx-8 text-white/20">•</span>
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
+const skillGroups = [
+  {
+    number: "01",
+    title: "Principal",
+    skills: ["TypeScript", "JavaScript", "React", "Next.js", "Node.js", "Python"],
+  },
+  {
+    number: "02",
+    title: "Backend & dados",
+    skills: ["REST APIs", "JWT", "SQL", "Redis", "Swagger", "OpenAPI"],
+  },
+  {
+    number: "03",
+    title: "Ferramentas",
+    skills: ["Git", "Gitflow", "Docker", "Linux", "Postman", "DBeaver"],
+  },
+  {
+    number: "04",
+    title: "Produto & interface",
+    skills: ["Tailwind CSS", "shadcn/ui", "UI/UX", "SEO técnico"],
+  },
+]
 
 export function TechMarquee() {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <section className="relative py-24 overflow-hidden md:py-32">
-      {/* Section Header */}
+    <section className="relative px-8 py-24 md:px-12 md:py-32" aria-labelledby="skills-title">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 2 }}
-        className="px-8 md:px-12 mb-16"
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8 }}
+        className="mb-12 md:mb-16"
       >
-        <p className="font-mono text-lg tracking-[0.3em] text-muted-foreground mb-4">
-          {" "}
-          skills
-        </p>
+        <p className="mb-4 font-mono text-xs tracking-[0.3em] text-muted-foreground">competências</p>
+        <h2 id="skills-title" className="font-sans text-3xl font-light italic md:text-5xl">
+          TECNOLOGIAS &amp; FERRAMENTAS
+        </h2>
       </motion.div>
 
-      {/* Marquee Rows */}
-      <div className="space-y-4">
-        <MarqueeRow items={techItems} duration={70} direction="left" />
-        <MarqueeRow items={concepts} duration={70} direction="right" />
+      <div className="border-t border-white/10">
+        {skillGroups.map((group, index) => (
+          <motion.div
+            key={group.title}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.55, delay: index * 0.05 }}
+            className="grid gap-5 border-b border-white/10 py-7 md:grid-cols-[3rem_0.65fr_1.35fr] md:items-center md:gap-8"
+          >
+            <span className="font-mono text-[10px] tracking-widest text-[#FF5F1F]">{group.number}</span>
+            <h3 className="font-sans text-2xl font-light italic md:text-3xl">{group.title}</h3>
+            <div className="flex flex-wrap gap-2">
+              {group.skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="border border-white/15 px-3 py-1.5 font-mono text-[10px] tracking-wider text-muted-foreground"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
-  );
+  )
 }
