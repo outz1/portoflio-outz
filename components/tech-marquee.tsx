@@ -16,7 +16,7 @@ const skillGroups = [
   {
     number: "03",
     title: "Ferramentas",
-    skills: ["Git", "Gitflow", "Docker", "Linux", "Postman", "DBeaver"],
+    skills: ["Git", "Gitflow", "Docker", "Linux", "Postman", "DBeaver", "IA para desenvolvimento"],
   },
   {
     number: "04",
