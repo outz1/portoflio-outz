@@ -19,7 +19,7 @@ export const projects: Project[] = [
   {
     title: "ELO Júnior",
     tags: { pt: ["Fullstack", "Automação", "Liderança"], en: ["Fullstack", "Automation", "Leadership"] },
-    image: "/const/elo.avif",
+    image: "/const/elo.webp",
     year: "2025",
     type: "experience",
     description: {
@@ -30,7 +30,7 @@ export const projects: Project[] = [
   {
     title: "Labex",
     tags: ["Next.JS", "Vercel", "Typescript"],
-    image: "/const/labex.jpeg",
+    image: "/const/labex.webp",
     year: "2025",
     type: "experience",
     link: "https://labex-website.vercel.app/",
@@ -42,7 +42,7 @@ export const projects: Project[] = [
   {
     title: "Omnia",
     tags: { pt: ["Nest.JS", "IA", "WhatsApp"], en: ["Nest.JS", "AI", "WhatsApp"] },
-    image: "/const/omnia.png",
+    image: "/const/omnia.webp",
     year: "2026",
     type: "project",
     link: "https://github.com/insignia-corp/omnia",
@@ -54,7 +54,7 @@ export const projects: Project[] = [
   {
     title: "Evento Gamificado",
     tags: ["TypeScript", "Redis", "API"],
-    image: "/const/inf.jpg",
+    image: "/const/inf.webp",
     year: "2026",
     type: "project",
     link: "https://github.com/outz1/Projeto-CS",
@@ -138,7 +138,7 @@ export const translations = {
     footer: {
       ctaStart: "Vamos",
       ctaEmphasis: "colaborar",
-      localTime: "HORÁRIO LOCAL",
+      localTime: "GOIÂNIA, BR",
     },
   },
   en: {
@@ -213,7 +213,7 @@ export const translations = {
     footer: {
       ctaStart: "Let's",
       ctaEmphasis: "collaborate",
-      localTime: "LOCAL TIME",
+      localTime: "GOIÂNIA, BR",
     },
   },
 } satisfies Record<Language, unknown>

@@ -2,6 +2,7 @@
 
 import { useRef, useMemo, useEffect, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import { useReducedMotion } from "framer-motion"
 import { MathUtils } from "three"
 import type { Mesh, ShaderMaterial } from "three"
 
@@ -67,8 +68,9 @@ const NOISE_GLSL = `
 // wireframe (~20k faces) at a cost that runs fine even on integrated/low-end
 // GPUs. Bump to 6 only if you've profiled headroom.
 const SPHERE_DETAIL = 4
+const SPHERE_DETAIL_LOW = 3
 
-function Sphere() {
+function Sphere({ detail }: { detail: number }) {
   const meshRef = useRef<Mesh>(null)
   const materialRef = useRef<ShaderMaterial>(null)
   const { pointer } = useThree()
@@ -185,7 +187,7 @@ function Sphere() {
 
   return (
     <mesh ref={meshRef}>
-      <icosahedronGeometry args={[1.8, SPHERE_DETAIL]} />
+      <icosahedronGeometry args={[1.8, detail]} />
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}
@@ -198,12 +200,32 @@ function Sphere() {
   )
 }
 
+// Aparelhos com poucos núcleos ou pouca memória recebem uma malha mais leve
+function isLowEndDevice() {
+  const nav = navigator as Navigator & { deviceMemory?: number }
+  return (nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 4
+}
+
 export function SentientSphere() {
+  const containerRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
+  const [lowEnd, setLowEnd] = useState(false)
+  const [inView, setInView] = useState(true)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
+    setLowEnd(isLowEndDevice())
     setMounted(true)
   }, [])
+
+  // Para de renderizar quando o hero sai da tela
+  useEffect(() => {
+    const element = containerRef.current
+    if (!element) return
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting))
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [mounted])
 
   if (!mounted) {
     return (
@@ -213,21 +235,26 @@ export function SentientSphere() {
     )
   }
 
+  // Com movimento reduzido, desenha um único quadro e fica estática
+  const frameloop = reduceMotion ? "demand" : inView ? "always" : "never"
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 5], fov: 45 }}
-      className="w-full my-0 h-full py-0"
-      // capped dpr keeps fragment cost sane on high-density/retina screens
-      dpr={[1, 1.25]}
-      gl={{
-        antialias: false,
-        alpha: true,
-        powerPreference: "high-performance",
-      }}
-      frameloop="always"
-    >
-      <ambientLight intensity={0.5} />
-      <Sphere />
-    </Canvas>
+    <div ref={containerRef} className="h-full w-full">
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 45 }}
+        className="w-full my-0 h-full py-0"
+        // capped dpr keeps fragment cost sane on high-density/retina screens
+        dpr={lowEnd ? 1 : [1, 1.25]}
+        gl={{
+          antialias: false,
+          alpha: true,
+          powerPreference: lowEnd ? "low-power" : "high-performance",
+        }}
+        frameloop={frameloop}
+      >
+        <ambientLight intensity={0.5} />
+        <Sphere detail={lowEnd ? SPHERE_DETAIL_LOW : SPHERE_DETAIL} />
+      </Canvas>
+    </div>
   )
 }
