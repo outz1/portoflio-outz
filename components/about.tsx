@@ -54,6 +54,25 @@ export function About() {
           </div>
         ))}
       </div>
+
+      <div className="mt-16 grid gap-6 md:grid-cols-[0.7fr_1.3fr] md:gap-20">
+        <p className="font-mono text-xs tracking-[0.18em] text-[#FF5F1F]">{t.about.activitiesTitle}</p>
+        <div className="grid border-l border-t border-white/10 sm:grid-cols-2">
+          {t.about.activities.map((activity, index) => (
+            <motion.div
+              key={activity.title}
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, delay: index * 0.08 }}
+              className="border-b border-r border-white/10 p-5 md:p-6"
+            >
+              <h3 className="font-sans text-2xl font-light italic">{activity.title}</h3>
+              <p className="mt-3 font-mono text-xs leading-relaxed text-muted-foreground">{activity.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }

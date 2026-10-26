@@ -100,6 +100,19 @@ export const translations = {
         "Arquitetura sustentável.",
         "Segurança desde o início.",
       ],
+      activitiesTitle: "ALÉM DO TRABALHO",
+      activities: [
+        {
+          title: "Bug bounty",
+          description:
+            "Pesquisador em programa privado de bug bounty na Bugcrowd, com foco em segurança de APIs, OAuth 2.0 e agentes de IA (MCP).",
+        },
+        {
+          title: "Hackathons",
+          description:
+            "Participo de hackathons para tirar ideias do papel em pouco tempo e em equipe. O Omnia nasceu no hackathon AKCIT Camp.",
+        },
+      ],
     },
     works: {
       eyebrow: "alguns pontos da minha trajetória",
@@ -161,6 +174,19 @@ export const translations = {
         "Interfaces that matter.",
         "Sustainable architecture.",
         "Security from day one.",
+      ],
+      activitiesTitle: "BEYOND WORK",
+      activities: [
+        {
+          title: "Bug bounty",
+          description:
+            "Researcher in a private bug bounty program on Bugcrowd, focused on API security, OAuth 2.0 and AI agents (MCP).",
+        },
+        {
+          title: "Hackathons",
+          description:
+            "I take part in hackathons to turn ideas into working products fast and as a team. Omnia was born at the AKCIT Camp hackathon.",
+        },
       ],
     },
     works: {
