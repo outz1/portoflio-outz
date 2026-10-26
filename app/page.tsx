@@ -14,7 +14,7 @@ export default function Home() {
     <SmoothScroll>
       <CustomCursor />
       <Navbar />
-      <main>
+      <main id="content">
         <Hero />
         <SectionBlend />
         <About />

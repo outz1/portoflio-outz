@@ -13,10 +13,10 @@ function LanguageToggle() {
       onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
       data-cursor-hover
       aria-label={t.nav.switchLanguage}
-      className="flex items-center gap-1.5 border border-white/15 px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors hover:border-white/35"
+      className="flex min-h-9 items-center gap-1.5 border border-white/15 px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors hover:border-white/35"
     >
       <span className={language === "pt" ? "text-foreground" : "text-muted-foreground"}>PT</span>
-      <span className="text-muted-foreground/50">/</span>
+      <span aria-hidden="true" className="text-muted-foreground/50">/</span>
       <span className={language === "en" ? "text-foreground" : "text-muted-foreground"}>EN</span>
     </button>
   )
@@ -37,6 +37,16 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Esc fecha o menu do celular
+  useEffect(() => {
+    if (!isMenuOpen) return
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false)
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [isMenuOpen])
+
   const scrollToSection = (href: string) => {
     setIsMenuOpen(false)
     const element = document.querySelector(href)
@@ -47,6 +57,12 @@ export function Navbar() {
 
   return (
     <>
+      <a
+        href="#content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[10001] focus:bg-[#ff5f1f] focus:px-4 focus:py-3 focus:font-mono focus:text-xs focus:tracking-widest focus:text-[#050505]"
+      >
+        {t.nav.skipToContent}
+      </a>
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -63,9 +79,10 @@ export function Navbar() {
               e.preventDefault()
               window.scrollTo({ top: 0, behavior: "smooth" })
             }}
-            className="group flex items-center gap-2"
+            aria-label={t.nav.backToTop}
+            className="group flex min-h-11 items-center gap-2"
           >
-            <span className="font-mono text-lg tracking-widest text-muted-foreground">&lt;/&gt;</span>
+            <span aria-hidden="true" className="font-mono text-lg tracking-widest text-muted-foreground">&lt;/&gt;</span>
           </a>
 
           {/* Desktop Navigation */}
@@ -76,7 +93,7 @@ export function Navbar() {
                   onClick={() => scrollToSection(link.href)}
                   className="group relative font-mono text-xs tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-300"
                 >
-                  <span className="text-[#ff5f1f] mr-1">0{index + 1}</span>
+                  <span aria-hidden="true" className="text-[#ff5f1f] mr-1">0{index + 1}</span>
                   {link.label.toUpperCase()}
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground group-hover:w-full transition-all duration-300" />
                 </button>
@@ -102,8 +119,10 @@ export function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
-              aria-label={t.nav.toggleMenu}
+              className="md:hidden relative w-11 h-11 flex flex-col items-center justify-center gap-1.5"
+              aria-label={isMenuOpen ? t.nav.closeMenu : t.nav.toggleMenu}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
               <motion.span
                 animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
@@ -130,6 +149,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            id="mobile-menu"
             className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg md:hidden"
           >
             <nav className="flex flex-col items-center justify-center h-full gap-8">
@@ -143,18 +163,10 @@ export function Navbar() {
                   onClick={() => scrollToSection(link.href)}
                   className="group text-4xl font-sans tracking-tight text-foreground"
                 >
-                  <span className="text-[#ff5f1f] font-mono text-sm mr-2">0{index + 1}</span>
+                  <span aria-hidden="true" className="text-[#ff5f1f] font-mono text-sm mr-2">0{index + 1}</span>
                   {link.label}
                 </motion.button>
               ))}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="flex items-center gap-3 mt-8"
-              >
-
-              </motion.div>
             </nav>
           </motion.div>
         )}

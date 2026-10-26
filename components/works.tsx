@@ -61,7 +61,13 @@ export function Works() {
           // Experiências não têm link: o card vira um bloco sem navegação
           const Wrapper = project.link ? "a" : "div"
           const linkProps = project.link
-            ? { href: project.link, target: "_blank", rel: "noopener noreferrer", "data-cursor-hover": true }
+            ? {
+                href: project.link,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                "data-cursor-hover": true,
+                "aria-label": `${project.title} (${t.works.opensInNewTab})`,
+              }
             : {}
 
           return (
@@ -88,7 +94,7 @@ export function Works() {
                     className={`font-mono text-[10px] tracking-wider px-2 py-0.5 rounded-full border ${
                       project.type === "project"
                         ? "border-[#A1AEB1]/40 text-[#A1AEB1]/80"
-                        : "border-[#FF5F1F]/40 text-[#FF5F1F]/80"
+                        : "border-[#FF5F1F]/50 text-[#FF5F1F]"
                     }`}
                   >
                     {t.works.types[project.type]}

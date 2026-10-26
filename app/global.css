@@ -121,6 +121,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Foco de teclado visível no fundo escuro (o padrão do navegador tinha 1px) */
+  :focus-visible {
+    outline: 2px solid #ff5f1f;
+    outline-offset: 4px;
+  }
   body {
     @apply bg-background text-foreground;
   }
