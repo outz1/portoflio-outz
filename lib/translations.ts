@@ -75,7 +75,10 @@ export const translations = {
       ],
       status: "disponível",
       toggleMenu: "Abrir menu",
+      closeMenu: "Fechar menu",
       switchLanguage: "Switch to English",
+      skipToContent: "Pular para o conteúdo",
+      backToTop: "Voltar ao topo",
     },
     hero: {
       title: "Full Stack Developer",
@@ -118,6 +121,7 @@ export const translations = {
       eyebrow: "alguns pontos da minha trajetória",
       title: "EXPERIÊNCIAS E PROJETOS PESSOAIS",
       types: { experience: "Experiência", project: "Projeto" },
+      opensInNewTab: "abre em nova aba",
     },
     skills: {
       eyebrow: "competências",
@@ -141,6 +145,7 @@ export const translations = {
     footer: {
       ctaStart: "Vamos",
       ctaEmphasis: "colaborar",
+      emailCopied: "e-mail copiado",
       localTime: "BRASIL",
     },
   },
@@ -153,7 +158,10 @@ export const translations = {
       ],
       status: "available",
       toggleMenu: "Open menu",
+      closeMenu: "Close menu",
       switchLanguage: "Mudar para português",
+      skipToContent: "Skip to content",
+      backToTop: "Back to top",
     },
     hero: {
       title: "Full Stack Developer",
@@ -196,6 +204,7 @@ export const translations = {
       eyebrow: "highlights from my journey",
       title: "EXPERIENCE AND PERSONAL PROJECTS",
       types: { experience: "Experience", project: "Project" },
+      opensInNewTab: "opens in a new tab",
     },
     skills: {
       eyebrow: "skills",
@@ -219,6 +228,7 @@ export const translations = {
     footer: {
       ctaStart: "Let's",
       ctaEmphasis: "collaborate",
+      emailCopied: "e-mail copied",
       localTime: "BRAZIL",
     },
   },
