@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
+import { useLanguage } from "./language-provider"
 
 
 const socialLinks = [
@@ -22,6 +23,7 @@ const socialLinks = [
 
 
 export function Footer() {
+  const { t } = useLanguage()
   const [time, setTime] = useState("")
   const [isHovered, setIsHovered] = useState(false)
 
@@ -67,7 +69,7 @@ export function Footer() {
               }}
               transition={{ duration: 0.3 }}
             >
-              Let's <span className="italic">Collaborate</span>
+              {t.footer.ctaStart} <span className="italic">{t.footer.ctaEmphasis}</span>
             </motion.h2>
 
             <motion.div
@@ -88,7 +90,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Local Time */}
           <div className="font-mono text-xs tracking-widest text-muted-foreground">
-            <span className="mr-2">LOCAL TIME</span>
+            <span className="mr-2">{t.footer.localTime}</span>
             <span className="text-white tabular-nums">{time}</span>
           </div>
 

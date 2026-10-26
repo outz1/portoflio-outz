@@ -1,0 +1,221 @@
+export type Language = "pt" | "en"
+
+// Caminho do currículo em PDF dentro de /public
+export const RESUME_URL = "/curriculo.pdf"
+
+type ProjectType = "experience" | "project"
+
+export type Project = {
+  title: string
+  tags: string[] | Record<Language, string[]>
+  image: string
+  year: string
+  type: ProjectType
+  link?: string
+  description: Record<Language, string>
+}
+
+export const projects: Project[] = [
+  {
+    title: "ELO Júnior",
+    tags: { pt: ["Fullstack", "Automação", "Liderança"], en: ["Fullstack", "Automation", "Leadership"] },
+    image: "/const/elo.avif",
+    year: "2025",
+    type: "experience",
+    description: {
+      pt: "Responsável técnico pelo desenvolvimento de aplicações web e automações, garantindo a qualidade e a eficiência dos processos.",
+      en: "Technical lead for the development of web applications and automations, ensuring process quality and efficiency.",
+    },
+  },
+  {
+    title: "Labex",
+    tags: ["Next.JS", "Vercel", "Typescript"],
+    image: "/const/labex.jpeg",
+    year: "2025",
+    type: "experience",
+    link: "https://labex-website.vercel.app/",
+    description: {
+      pt: "Desenvolvimento de uma aplicação web para uma empresa de medicina laboratorial, implementado com Next.js e deploy na Vercel. Foi utilizado conceitos de UI/UX design, SEO técnico e otimização de performance.",
+      en: "Web application for a laboratory medicine company, built with Next.js and deployed on Vercel, applying UI/UX design, technical SEO and performance optimization.",
+    },
+  },
+  {
+    title: "Omnia",
+    tags: { pt: ["Nest.JS", "IA", "WhatsApp"], en: ["Nest.JS", "AI", "WhatsApp"] },
+    image: "/const/omnia.png",
+    year: "2026",
+    type: "project",
+    link: "https://github.com/insignia-corp/omnia",
+    description: {
+      pt: "Agente de IA que avisa o dono de mercadinho pelo WhatsApp o que importa no negócio: margem, reajuste de fornecedor, giro e produtos parados. Lê notas de compra com visão, calcula as métricas em funções determinísticas e um verificador confere cada número antes do envio. Feito com Nest.js, PostgreSQL, Redis + BullMQ e Docker para o hackathon AKCIT Camp.",
+      en: "AI agent that tells small grocery store owners on WhatsApp what matters in their business: margins, supplier price increases, turnover and stalled products. It reads purchase receipts with vision, computes metrics in deterministic functions, and a verifier checks every number before sending. Built with Nest.js, PostgreSQL, Redis + BullMQ and Docker for the AKCIT Camp hackathon.",
+    },
+  },
+  {
+    title: "Evento Gamificado",
+    tags: ["TypeScript", "Redis", "API"],
+    image: "/const/inf.jpg",
+    year: "2026",
+    type: "project",
+    link: "https://github.com/outz1/Projeto-CS",
+    description: {
+      pt: "Projeto para um evento da universidade com elementos de gamificação e scoreboard iterativo, foi feito com TypeScript e UptashRedis. Além de contar com práticas de desenvolvimento ágil e metodologias de entrega contínua e segurança de endpoints.",
+      en: "Project for a university event with gamification and a live scoreboard, built with TypeScript and Upstash Redis, following agile practices, continuous delivery and endpoint security.",
+    },
+  },
+]
+
+export const translations = {
+  pt: {
+    nav: {
+      links: [
+        { label: "Sobre", href: "#about" },
+        { label: "Portfólio", href: "#works" },
+        { label: "Contato", href: "#contact" },
+      ],
+      status: "disponível",
+      toggleMenu: "Abrir menu",
+      switchLanguage: "Switch to English",
+    },
+    hero: {
+      title: "Full Stack Developer",
+      subtitle: "com foco em software seguro.",
+      intro:
+        "Desenvolvo aplicações web completas, da interface à API, com foco em arquitetura, performance e segurança.",
+      viewProjects: "VER PROJETOS",
+      resume: "CURRÍCULO",
+      resumeLabel: "Baixar currículo em PDF",
+      copyEmail: "COPIAR E-MAIL",
+      emailCopied: "E-MAIL COPIADO",
+      copyEmailLabel: "Copiar endereço de e-mail",
+    },
+    about: {
+      eyebrow: "sobre",
+      title: "ENTRE PRODUTO, CÓDIGO E SEGURANÇA",
+      lead: "Sou desenvolvedor Full Stack com experiência na construção de aplicações web, APIs e automações, conectando decisões técnicas às necessidades reais de cada produto.",
+      body: "Minha trajetória inclui desenvolvimento, liderança técnica e colaboração em equipe. Atualmente aprofundo meus estudos em arquitetura e segurança de aplicações para criar sistemas mais confiáveis, performáticos e fáceis de manter.",
+      principles: [
+        "Problemas bem entendidos.",
+        "Interfaces que impactam.",
+        "Arquitetura sustentável.",
+        "Segurança desde o início.",
+      ],
+      activitiesTitle: "ALÉM DO TRABALHO",
+      activities: [
+        {
+          title: "Bug bounty",
+          description:
+            "Pesquisador em programa privado de bug bounty na Bugcrowd, com foco em segurança de APIs, OAuth 2.0 e agentes de IA (MCP).",
+        },
+        {
+          title: "Hackathons",
+          description:
+            "Participo de hackathons para tirar ideias do papel em pouco tempo e em equipe. O Omnia nasceu no hackathon AKCIT Camp.",
+        },
+      ],
+    },
+    works: {
+      eyebrow: "alguns pontos da minha trajetória",
+      title: "EXPERIÊNCIAS E PROJETOS PESSOAIS",
+      types: { experience: "Experiência", project: "Projeto" },
+    },
+    skills: {
+      eyebrow: "competências",
+      title: "TECNOLOGIAS & FERRAMENTAS",
+      groups: ["Principal", "Backend & dados", "Ferramentas", "Produto & interface"],
+      aiTooling: "IA para desenvolvimento",
+      seo: "SEO técnico",
+    },
+    upcoming: {
+      eyebrow: "em construção",
+      title: "PRÓXIMOS PROJETOS",
+      descriptions: [
+        "Construindo objetivos por meio de código.",
+        "Um novo tempo para construção e arquitetura.",
+        "Experiências gamificadas na vida real.",
+      ],
+    },
+    footer: {
+      ctaStart: "Vamos",
+      ctaEmphasis: "colaborar",
+      localTime: "HORÁRIO LOCAL",
+    },
+  },
+  en: {
+    nav: {
+      links: [
+        { label: "About", href: "#about" },
+        { label: "Work", href: "#works" },
+        { label: "Contact", href: "#contact" },
+      ],
+      status: "available",
+      toggleMenu: "Open menu",
+      switchLanguage: "Mudar para português",
+    },
+    hero: {
+      title: "Full Stack Developer",
+      subtitle: "focused on secure software.",
+      intro:
+        "I build complete web applications, from interface to API, with a focus on architecture, performance and security.",
+      viewProjects: "VIEW PROJECTS",
+      resume: "RESUME",
+      resumeLabel: "Download resume as PDF",
+      copyEmail: "COPY E-MAIL",
+      emailCopied: "E-MAIL COPIED",
+      copyEmailLabel: "Copy e-mail address",
+    },
+    about: {
+      eyebrow: "about",
+      title: "BETWEEN PRODUCT, CODE AND SECURITY",
+      lead: "I'm a Full Stack developer experienced in building web applications, APIs and automations, connecting technical decisions to the real needs of each product.",
+      body: "My path includes development, technical leadership and teamwork. I'm currently deepening my studies in software architecture and application security to build systems that are more reliable, performant and easy to maintain.",
+      principles: [
+        "Well-understood problems.",
+        "Interfaces that matter.",
+        "Sustainable architecture.",
+        "Security from day one.",
+      ],
+      activitiesTitle: "BEYOND WORK",
+      activities: [
+        {
+          title: "Bug bounty",
+          description:
+            "Researcher in a private bug bounty program on Bugcrowd, focused on API security, OAuth 2.0 and AI agents (MCP).",
+        },
+        {
+          title: "Hackathons",
+          description:
+            "I take part in hackathons to turn ideas into working products fast and as a team. Omnia was born at the AKCIT Camp hackathon.",
+        },
+      ],
+    },
+    works: {
+      eyebrow: "highlights from my journey",
+      title: "EXPERIENCE AND PERSONAL PROJECTS",
+      types: { experience: "Experience", project: "Project" },
+    },
+    skills: {
+      eyebrow: "skills",
+      title: "TECHNOLOGIES & TOOLS",
+      groups: ["Core", "Backend & data", "Tools", "Product & interface"],
+      aiTooling: "AI-assisted development",
+      seo: "Technical SEO",
+    },
+    upcoming: {
+      eyebrow: "in progress",
+      title: "UPCOMING PROJECTS",
+      descriptions: [
+        "Constructing objectives via code.",
+        "New time for building and architecture.",
+        "Real-life gamified experiences.",
+      ],
+    },
+    footer: {
+      ctaStart: "Let's",
+      ctaEmphasis: "collaborate",
+      localTime: "LOCAL TIME",
+    },
+  },
+} satisfies Record<Language, unknown>
+
+export type Dictionary = (typeof translations)["pt"]

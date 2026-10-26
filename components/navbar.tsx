@@ -2,14 +2,29 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useLanguage } from "./language-provider"
 
-const navLinks = [
-  { label: "Sobre", href: "#about" },
-  { label: "Portfólio", href: "#works" },
-  { label: "Contato", href: "#contact" },
-]
+function LanguageToggle() {
+  const { language, setLanguage, t } = useLanguage()
+
+  return (
+    <button
+      type="button"
+      onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
+      data-cursor-hover
+      aria-label={t.nav.switchLanguage}
+      className="flex items-center gap-1.5 border border-white/15 px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors hover:border-white/35"
+    >
+      <span className={language === "pt" ? "text-foreground" : "text-muted-foreground"}>PT</span>
+      <span className="text-muted-foreground/50">/</span>
+      <span className={language === "en" ? "text-foreground" : "text-muted-foreground"}>EN</span>
+    </button>
+  )
+}
 
 export function Navbar() {
+  const { t } = useLanguage()
+  const navLinks = t.nav.links
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -69,33 +84,40 @@ export function Navbar() {
           </ul>
 
           {/* Status Indicator */}
-          <div className="hidden md:flex items-center gap-3">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5f1f] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dbdbdb]" />
-            </span>
-            <span className="font-mono text-xs tracking-wider text-muted-foreground">disponível</span>
+          <div className="hidden md:flex items-center gap-6">
+            <div className="flex items-center gap-3">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5f1f] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dbdbdb]" />
+              </span>
+              <span className="font-mono text-xs tracking-wider text-muted-foreground">{t.nav.status}</span>
+            </div>
+            <LanguageToggle />
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
-            aria-label="Toggle menu"
-          >
-            <motion.span
-              animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
-              className="w-6 h-px bg-foreground origin-center"
-            />
-            <motion.span
-              animate={isMenuOpen ? { opacity: 0, x: -10 } : { opacity: 1, x: 0 }}
-              className="w-6 h-px bg-foreground"
-            />
-            <motion.span
-              animate={isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
-              className="w-6 h-px bg-foreground origin-center"
-            />
-          </button>
+          <div className="flex items-center gap-4 md:hidden">
+            <LanguageToggle />
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
+              aria-label={t.nav.toggleMenu}
+            >
+              <motion.span
+                animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
+                className="w-6 h-px bg-foreground origin-center"
+              />
+              <motion.span
+                animate={isMenuOpen ? { opacity: 0, x: -10 } : { opacity: 1, x: 0 }}
+                className="w-6 h-px bg-foreground"
+              />
+              <motion.span
+                animate={isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
+                className="w-6 h-px bg-foreground origin-center"
+              />
+            </button>
+          </div>
         </nav>
       </motion.header>
 
