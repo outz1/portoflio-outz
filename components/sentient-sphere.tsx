@@ -2,7 +2,6 @@
 
 import { useRef, useMemo, useEffect, useState, useSyncExternalStore } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { useReducedMotion } from "framer-motion"
 import { MathUtils } from "three"
 import type { Mesh, ShaderMaterial } from "three"
 
@@ -69,7 +68,7 @@ const NOISE_GLSL = `
 // GPUs. Bump to 6 only if you've profiled headroom.
 const SPHERE_DETAIL = 4
 
-function Sphere({ calm }: { calm: boolean }) {
+function Sphere() {
   const meshRef = useRef<Mesh>(null)
   const materialRef = useRef<ShaderMaterial>(null)
   const { pointer } = useThree()
@@ -158,8 +157,7 @@ function Sphere({ calm }: { calm: boolean }) {
     const delta = Math.min(rawDelta, 0.1)
     const dist = Math.min(1, Math.hypot(pointer.x, pointer.y))
     const proximity = 1 - dist
-    // Com movimento reduzido a esfera só gira devagar, sem reagir ao mouse
-    const target = calm ? 0 : Math.min(1, proximity * 1.1 + (pressed ? 0.6 : 0))
+    const target = Math.min(1, proximity * 1.1 + (pressed ? 0.6 : 0))
 
     // fast attack, slow release
     const rate = target > aggroRef.current ? 10 : 2.2
@@ -209,7 +207,6 @@ export function SentientSphere() {
   // true só no navegador; no servidor renderiza o placeholder
   const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false)
   const [inView, setInView] = useState(true)
-  const reduceMotion = useReducedMotion()
 
   // Para de renderizar quando o hero sai da tela
   useEffect(() => {
@@ -245,7 +242,7 @@ export function SentientSphere() {
         frameloop={frameloop}
       >
         <ambientLight intensity={0.5} />
-        <Sphere calm={Boolean(reduceMotion)} />
+        <Sphere />
       </Canvas>
     </div>
   )
