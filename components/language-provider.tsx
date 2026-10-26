@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useSyncExternalStore, type ReactNode } from "react"
 import { translations, type Dictionary, type Language } from "@/lib/translations"
 
 const STORAGE_KEY = "language"
@@ -13,36 +13,45 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
+// Store mínimo sobre o localStorage para o useSyncExternalStore
+const listeners = new Set<() => void>()
+let fallback: Language | null = null
+
+function readLanguage(): Language {
+  let stored: string | null = fallback
+  try {
+    stored = localStorage.getItem(STORAGE_KEY) ?? fallback
+  } catch {}
+
+  if (stored === "pt" || stored === "en") return stored
+  // Sem escolha salva, segue o idioma do navegador
+  return navigator.language.toLowerCase().startsWith("pt") ? "pt" : "en"
+}
+
+function writeLanguage(language: Language) {
+  fallback = language
+  try {
+    localStorage.setItem(STORAGE_KEY, language)
+  } catch {}
+  listeners.forEach((listener) => listener())
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener)
+  return () => {
+    listeners.delete(listener)
+  }
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("pt")
-
-  // Usa a escolha salva; sem ela, segue o idioma do navegador
-  useEffect(() => {
-    let stored: string | null = null
-    try {
-      stored = localStorage.getItem(STORAGE_KEY)
-    } catch {}
-
-    if (stored === "pt" || stored === "en") {
-      setLanguageState(stored)
-    } else if (!navigator.language.toLowerCase().startsWith("pt")) {
-      setLanguageState("en")
-    }
-  }, [])
+  const language = useSyncExternalStore(subscribe, readLanguage, () => "pt" as const)
 
   useEffect(() => {
     document.documentElement.lang = language === "pt" ? "pt-BR" : "en"
   }, [language])
 
-  const setLanguage = (next: Language) => {
-    setLanguageState(next)
-    try {
-      localStorage.setItem(STORAGE_KEY, next)
-    } catch {}
-  }
-
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t: translations[language] }}>
+    <LanguageContext.Provider value={{ language, setLanguage: writeLanguage, t: translations[language] }}>
       {children}
     </LanguageContext.Provider>
   )

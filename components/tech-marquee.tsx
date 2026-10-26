@@ -13,17 +13,22 @@ const getSkillGroups = (t: Dictionary["skills"]) => [
   {
     number: "02",
     title: t.groups[1],
-    skills: ["REST APIs", "JWT", "SQL", "Redis", "Swagger", "OpenAPI"],
+    skills: ["NestJS", "Express", "REST APIs", "PostgreSQL", "MySQL", "Redis", "BullMQ", "Swagger/OpenAPI", t.llm],
   },
   {
     number: "03",
     title: t.groups[2],
-    skills: ["Git", "Gitflow", "Docker", "Linux", "Postman", "DBeaver", t.aiTooling],
+    skills: ["Git", "Gitflow", "Docker", "GitHub Actions", "Vercel", "Linux", "Postman", "DBeaver", t.aiTooling],
   },
   {
     number: "04",
     title: t.groups[3],
-    skills: ["Tailwind CSS", "shadcn/ui", "UI/UX", t.seo],
+    skills: ["Tailwind CSS", "shadcn/ui", "UI/UX", t.accessibility, t.seo],
+  },
+  {
+    number: "05",
+    title: t.groups[4],
+    skills: ["Jest", "Clean Code", "Design Patterns", "JWT", "OAuth 2.0", "Rate limiting", t.apiSecurity],
   },
 ]
 

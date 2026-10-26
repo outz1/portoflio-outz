@@ -122,9 +122,12 @@ export const translations = {
     skills: {
       eyebrow: "competências",
       title: "TECNOLOGIAS & FERRAMENTAS",
-      groups: ["Principal", "Backend & dados", "Ferramentas", "Produto & interface"],
+      groups: ["Principal", "Backend & dados", "Ferramentas", "Produto & interface", "Qualidade & segurança"],
       aiTooling: "IA para desenvolvimento",
       seo: "SEO técnico",
+      accessibility: "Acessibilidade",
+      llm: "Agentes de IA (LLM)",
+      apiSecurity: "Segurança de APIs",
     },
     upcoming: {
       eyebrow: "em construção",
@@ -197,9 +200,12 @@ export const translations = {
     skills: {
       eyebrow: "skills",
       title: "TECHNOLOGIES & TOOLS",
-      groups: ["Core", "Backend & data", "Tools", "Product & interface"],
+      groups: ["Core", "Backend & data", "Tools", "Product & interface", "Quality & security"],
       aiTooling: "AI-assisted development",
       seo: "Technical SEO",
+      accessibility: "Accessibility",
+      llm: "AI agents (LLM)",
+      apiSecurity: "API security",
     },
     upcoming: {
       eyebrow: "in progress",
