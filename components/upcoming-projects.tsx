@@ -11,11 +11,11 @@ const upcomingProjects = [
   },
   {
     title: "NewArch",
-    image: "/upcoming/newarch.png",
+    image: "/upcoming/newarch.webp",
   },
   {
     title: "Braquiara",
-    image: "/upcoming/braquiara.png",
+    image: "/upcoming/braquiara.webp",
   },
 ]
 

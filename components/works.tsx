@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { motion, useMotionValue, useSpring } from "framer-motion"
+import Image from "next/image"
 import { projects } from "@/lib/translations"
 import { useLanguage } from "./language-provider"
 
@@ -135,6 +136,18 @@ export function Works() {
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="overflow-hidden"
               >
+                {/* No celular não há hover, então a imagem aparece dentro do card */}
+                <div className="relative mb-4 aspect-video w-full max-w-md overflow-hidden rounded-lg md:hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 0px"
+                    className="object-cover"
+                    style={{ filter: "grayscale(50%) contrast(1.1)" }}
+                  />
+                  <div className="absolute inset-0 bg-[#2563eb]/10 mix-blend-overlay" />
+                </div>
                 <p className="font-mono text-sm text-muted-foreground leading-relaxed max-w-2xl">
                   {project.description[language]}
                 </p>
@@ -145,7 +158,7 @@ export function Works() {
 
         {/* Floating Image */}
         <motion.div
-          className="pointer-events-none absolute left-0 top-0 z-50 h-0 w-0"
+          className="pointer-events-none absolute left-0 top-0 z-50 hidden h-0 w-0 md:block"
           style={{ x: springX, y: springY }}
         >
           <motion.div
@@ -157,17 +170,24 @@ export function Works() {
             transition={{ duration: 0.2 }}
           >
             {hoveredIndex !== null && (
-              <motion.img
-                src={projects[hoveredIndex].image}
-                alt={projects[hoveredIndex].title}
-                className="h-full w-full object-cover"
+              <motion.div
+                key={hoveredIndex}
+                className="absolute inset-0"
                 initial={{ scale: 1.2 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.4 }}
-                style={{
-                  filter: "grayscale(50%) contrast(1.1)",
-                }}
-              />
+              >
+                <Image
+                  src={projects[hoveredIndex].image}
+                  alt={projects[hoveredIndex].title}
+                  fill
+                  sizes="320px"
+                  className="object-cover"
+                  style={{
+                    filter: "grayscale(50%) contrast(1.1)",
+                  }}
+                />
+              </motion.div>
             )}
             <div className="absolute inset-0 bg-[#2563eb]/10 mix-blend-overlay" />
           </motion.div>
