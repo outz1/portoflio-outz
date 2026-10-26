@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "outz.dev - Eduardo de Brito | Portfólio",
     short_name: "outz.dev",
-    description: "Fullstack Developer & Cybersecurity Enthusiast | Portfólio",
+    description: "Portfólio de Eduardo de Brito, Full Stack Developer com foco em software seguro.",
     start_url: "/",
     display: "standalone",
     background_color: "#1a1a1a",
