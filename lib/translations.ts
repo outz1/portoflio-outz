@@ -141,7 +141,7 @@ export const translations = {
     footer: {
       ctaStart: "Vamos",
       ctaEmphasis: "colaborar",
-      localTime: "GOIÂNIA, BR",
+      localTime: "BRASIL",
     },
   },
   en: {
@@ -219,7 +219,7 @@ export const translations = {
     footer: {
       ctaStart: "Let's",
       ctaEmphasis: "collaborate",
-      localTime: "GOIÂNIA, BR",
+      localTime: "BRAZIL",
     },
   },
 } satisfies Record<Language, unknown>
