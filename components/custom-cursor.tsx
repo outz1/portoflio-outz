@@ -1,7 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion"
+
+const finePointerQuery = "(pointer: fine)"
+
+function subscribeFinePointer(onChange: () => void) {
+  const query = window.matchMedia(finePointerQuery)
+  query.addEventListener("change", onChange)
+  return () => query.removeEventListener("change", onChange)
+}
 
 export function CustomCursor() {
   const pointerX = useMotionValue(-100)
@@ -10,17 +18,12 @@ export function CustomCursor() {
   const y = useSpring(pointerY, { stiffness: 500, damping: 32, mass: 0.35 })
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
-  const [hasFinePointer, setHasFinePointer] = useState(false)
+  const hasFinePointer = useSyncExternalStore(
+    subscribeFinePointer,
+    () => window.matchMedia(finePointerQuery).matches,
+    () => false,
+  )
   const reduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    const pointerQuery = window.matchMedia("(pointer: fine)")
-    setHasFinePointer(pointerQuery.matches)
-
-    const handlePointerChange = (event: MediaQueryListEvent) => setHasFinePointer(event.matches)
-    pointerQuery.addEventListener("change", handlePointerChange)
-    return () => pointerQuery.removeEventListener("change", handlePointerChange)
-  }, [])
 
   useEffect(() => {
     if (!hasFinePointer || reduceMotion) return

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useMemo, useEffect, useState } from "react"
+import { useRef, useMemo, useEffect, useState, useSyncExternalStore } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useReducedMotion } from "framer-motion"
 import { MathUtils } from "three"
@@ -206,17 +206,15 @@ function isLowEndDevice() {
   return (nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 4
 }
 
+const noopSubscribe = () => () => {}
+
 export function SentientSphere() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [mounted, setMounted] = useState(false)
-  const [lowEnd, setLowEnd] = useState(false)
+  // true só no navegador; no servidor renderiza o placeholder
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false)
+  const lowEnd = useSyncExternalStore(noopSubscribe, isLowEndDevice, () => false)
   const [inView, setInView] = useState(true)
   const reduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    setLowEnd(isLowEndDevice())
-    setMounted(true)
-  }, [])
 
   // Para de renderizar quando o hero sai da tela
   useEffect(() => {

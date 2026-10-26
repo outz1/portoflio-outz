@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 import { motion, useMotionValue, useSpring } from "framer-motion"
 import Image from "next/image"
 import { projects } from "@/lib/translations"
@@ -11,7 +11,6 @@ import { useLanguage } from "./language-provider"
 export function Works() {
   const { language, t } = useLanguage()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set())
   const containerRef = useRef<HTMLDivElement>(null)
 
   const mouseX = useMotionValue(0)
@@ -20,29 +19,27 @@ export function Works() {
   const springX = useSpring(mouseX, { stiffness: 150, damping: 20 })
   const springY = useSpring(mouseY, { stiffness: 150, damping: 20 })
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const pointerRef = useRef({ x: 0, y: 0 })
+
+  const updateImagePosition = () => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect()
-      mouseX.set(e.clientX - rect.left)
-      mouseY.set(e.clientY - rect.top)
+      mouseX.set(pointerRef.current.x - rect.left)
+      mouseY.set(pointerRef.current.y - rect.top)
     }
   }
 
-  const expandItem = (index: number) => {
-    setExpandedIndices((prev) => {
-      const next = new Set(prev)
-      next.add(index)
-      return next
-    })
+  const handleMouseMove = (e: React.MouseEvent) => {
+    pointerRef.current = { x: e.clientX, y: e.clientY }
+    updateImagePosition()
   }
 
-  const collapseItem = (index: number) => {
-    setExpandedIndices((prev) => {
-      const next = new Set(prev)
-      next.delete(index)
-      return next
-    })
-  }
+  // Rolar com a roda sem mover o mouse deixava a imagem na posição antiga
+  useEffect(() => {
+    if (hoveredIndex === null) return
+    window.addEventListener("scroll", updateImagePosition, { passive: true })
+    return () => window.removeEventListener("scroll", updateImagePosition)
+  })
 
   return (
     <section id="works" className="relative py-32 px-8 md:px-12 md:py-24">
@@ -61,7 +58,6 @@ export function Works() {
       {/* Projects List */}
       <div ref={containerRef} onMouseMove={handleMouseMove} className="relative">
         {projects.map((project, index) => {
-          const isExpanded = expandedIndices.has(index)
           // Experiências não têm link: o card vira um bloco sem navegação
           const Wrapper = project.link ? "a" : "div"
           const linkProps = project.link
@@ -74,8 +70,6 @@ export function Works() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              onViewportEnter={() => expandItem(index)}
-              onViewportLeave={() => collapseItem(index)}
               transition={{ duration: 0.8, delay: index * 0.1 }}
               className="relative border-t border-white/10 py-8 md:py-12"
               onMouseEnter={() => setHoveredIndex(index)}
@@ -125,16 +119,13 @@ export function Works() {
                 </div>
               </Wrapper>
 
-              {/* Texto expansível na parte inferior do card */}
+              {/* Só opacidade e posição: animar a altura recalculava o layout a cada quadro do scroll */}
               <motion.div
-                initial={false}
-                animate={{
-                  height: isExpanded ? "auto" : 0,
-                  opacity: isExpanded ? 1 : 0,
-                  marginTop: isExpanded ? 16 : 0,
-                }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="overflow-hidden"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="mt-4"
               >
                 {/* No celular não há hover, então a imagem aparece dentro do card */}
                 <div className="relative mb-4 aspect-video w-full max-w-md overflow-hidden rounded-lg md:hidden">

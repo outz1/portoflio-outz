@@ -5,30 +5,28 @@ https://outzdev.me/
 
 ## Sobre o projeto
 
-Site pessoal construído com Next.js, focado em performance, animações fluidas e uma interface moderna. Utiliza componentes acessíveis baseados em Radix UI/shadcn, scroll suave e elementos 3D interativos.
+Site pessoal construído com Next.js, focado em performance, animações fluidas e uma interface moderna. Landing page única, em português e inglês, com scroll suave e uma esfera 3D interativa.
 
 ## Tecnologias
 
 - **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
 - **Linguagem:** TypeScript
-- **UI/Componentes:** Radix UI, shadcn/ui, Lucide Icons
 - **Estilização:** Tailwind CSS v4
-- **Animações:** Framer Motion, Lenis (smooth scroll)
+- **Animações:** Framer Motion, Lenis (scroll suave)
 - **3D:** Three.js + React Three Fiber
-- **Formulários:** React Hook Form + Zod
-- **Gráficos:** Recharts
+- **Ícones:** Lucide
+- **Idiomas:** português e inglês, com textos em `lib/translations.ts`
 - **Analytics:** Vercel Analytics
+- **Qualidade:** ESLint, TypeScript estrito no build e CI no GitHub Actions
 - **Gerenciador de pacotes:** pnpm
 
 ##  Estrutura do projeto
 
 ```
-├── app/          # Rotas e páginas (App Router)
-├── components/   # Componentes reutilizáveis da UI
-├── hooks/        # Hooks customizados
-├── lib/          # Funções utilitárias e configurações
-├── public/       # Arquivos estáticos (imagens, ícones, etc.)
-└── styles/       # Estilos globais
+├── app/          # Página, metadados, imagem de prévia social e estilos globais
+├── components/   # Seções da landing page
+├── lib/          # Traduções, dados dos projetos e utilitários
+└── public/       # Imagens, currículo em PDF e ícones
 ```
 
 ##  Como rodar localmente
@@ -47,7 +45,7 @@ pnpm install
 pnpm dev
 ```
 
-Abra [http://localhost:3001] no navegador para visualizar.
+Abra http://localhost:3000 no navegador para visualizar.
 
 ##  Scripts disponíveis
 
@@ -57,6 +55,7 @@ Abra [http://localhost:3001] no navegador para visualizar.
 | `pnpm build`  | Gera a build de produção            |
 | `pnpm start`  | Inicia o servidor em modo produção  |
 | `pnpm lint`   | Executa o linter                    |
+| `pnpm typecheck` | Confere os tipos do TypeScript   |
 
 
 ##  Licença
