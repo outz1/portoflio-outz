@@ -28,7 +28,7 @@ export function Footer() {
   const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
-    // Mostra a hora de Goiânia, não a de quem visita
+    // Horário de Brasília, igual para todos os visitantes
     const formatter = new Intl.DateTimeFormat("pt-BR", {
       timeZone: "America/Sao_Paulo",
       hour: "2-digit",

@@ -68,9 +68,8 @@ const NOISE_GLSL = `
 // wireframe (~20k faces) at a cost that runs fine even on integrated/low-end
 // GPUs. Bump to 6 only if you've profiled headroom.
 const SPHERE_DETAIL = 4
-const SPHERE_DETAIL_LOW = 3
 
-function Sphere({ detail }: { detail: number }) {
+function Sphere({ calm }: { calm: boolean }) {
   const meshRef = useRef<Mesh>(null)
   const materialRef = useRef<ShaderMaterial>(null)
   const { pointer } = useThree()
@@ -154,10 +153,13 @@ function Sphere({ detail }: { detail: number }) {
     }
   }, [])
 
-  useFrame((state, delta) => {
+  useFrame((state, rawDelta) => {
+    // Ao voltar de uma pausa (hero fora da tela), o delta traz todo o tempo parado
+    const delta = Math.min(rawDelta, 0.1)
     const dist = Math.min(1, Math.hypot(pointer.x, pointer.y))
     const proximity = 1 - dist
-    const target = Math.min(1, proximity * 1.1 + (pressed ? 0.6 : 0))
+    // Com movimento reduzido a esfera só gira devagar, sem reagir ao mouse
+    const target = calm ? 0 : Math.min(1, proximity * 1.1 + (pressed ? 0.6 : 0))
 
     // fast attack, slow release
     const rate = target > aggroRef.current ? 10 : 2.2
@@ -187,7 +189,7 @@ function Sphere({ detail }: { detail: number }) {
 
   return (
     <mesh ref={meshRef}>
-      <icosahedronGeometry args={[1.8, detail]} />
+      <icosahedronGeometry args={[1.8, SPHERE_DETAIL]} />
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}
@@ -200,19 +202,12 @@ function Sphere({ detail }: { detail: number }) {
   )
 }
 
-// Aparelhos com poucos núcleos ou pouca memória recebem uma malha mais leve
-function isLowEndDevice() {
-  const nav = navigator as Navigator & { deviceMemory?: number }
-  return (nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 4
-}
-
 const noopSubscribe = () => () => {}
 
 export function SentientSphere() {
   const containerRef = useRef<HTMLDivElement>(null)
   // true só no navegador; no servidor renderiza o placeholder
   const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false)
-  const lowEnd = useSyncExternalStore(noopSubscribe, isLowEndDevice, () => false)
   const [inView, setInView] = useState(true)
   const reduceMotion = useReducedMotion()
 
@@ -233,8 +228,7 @@ export function SentientSphere() {
     )
   }
 
-  // Com movimento reduzido, desenha um único quadro e fica estática
-  const frameloop = reduceMotion ? "demand" : inView ? "always" : "never"
+  const frameloop = inView ? "always" : "never"
 
   return (
     <div ref={containerRef} className="h-full w-full">
@@ -242,16 +236,16 @@ export function SentientSphere() {
         camera={{ position: [0, 0, 5], fov: 45 }}
         className="w-full my-0 h-full py-0"
         // capped dpr keeps fragment cost sane on high-density/retina screens
-        dpr={lowEnd ? 1 : [1, 1.25]}
+        dpr={[1, 1.25]}
         gl={{
           antialias: false,
           alpha: true,
-          powerPreference: lowEnd ? "low-power" : "high-performance",
+          powerPreference: "high-performance",
         }}
         frameloop={frameloop}
       >
         <ambientLight intensity={0.5} />
-        <Sphere detail={lowEnd ? SPHERE_DETAIL_LOW : SPHERE_DETAIL} />
+        <Sphere calm={Boolean(reduceMotion)} />
       </Canvas>
     </div>
   )
