@@ -2,26 +2,26 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { useLanguage } from "./language-provider"
 
 const upcomingProjects = [
   {
     title: "INSIGNIA",
-    description: "Constructing objectives via code.",
     image: "/favicon.svg",
   },
   {
     title: "NewArch",
-    description: "New time for building and architecture.",
     image: "/upcoming/newarch.png",
   },
   {
     title: "Braquiara",
-    description: "Real-life gamified experiences.",
     image: "/upcoming/braquiara.png",
   },
 ]
 
 export function UpcomingProjects() {
+  const { t } = useLanguage()
+
   return (
     <section className="relative px-8 py-24 md:px-12 md:py-32" aria-labelledby="upcoming-projects-title">
       <motion.div
@@ -32,13 +32,13 @@ export function UpcomingProjects() {
         className="mb-12 md:mb-16"
       >
         <p className="mb-4 font-mono text-xs tracking-[0.3em] text-muted-foreground">
-          em construção
+          {t.upcoming.eyebrow}
         </p>
         <h2
           id="upcoming-projects-title"
           className="font-sans text-3xl font-light italic md:text-5xl"
         >
-          PRÓXIMOS PROJETOS
+          {t.upcoming.title}
         </h2>
       </motion.div>
 
@@ -77,7 +77,7 @@ export function UpcomingProjects() {
                 {project.title}
               </h3>
               <p className="mt-3 max-w-sm font-mono text-xs leading-relaxed text-muted-foreground/80">
-                {project.description}
+                {t.upcoming.descriptions[index]}
               </p>
 
             </div>

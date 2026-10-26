@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Playfair_Display, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { LanguageProvider } from "@/components/language-provider"
 import "./global.css"
 
 const playfair = Playfair_Display({
@@ -22,25 +23,51 @@ export const metadata: Metadata = {
     default: "outz.dev - Eduardo de Brito | Portfólio",
     template: "%s | outz.dev",
   },
-  description: "Fullstack Developer & Cybersecurity Enthusiast focado em Clean Architecture.",
+  description:
+    "Portfólio de Eduardo de Brito, desenvolvedor Full Stack com foco em software seguro, arquitetura e performance.",
   icons: {
     icon: "/favicon.svg",
     apple: "/favicon.svg",
   },
   openGraph: {
-    title: "Eduardo de Brito - Fullstack Developer",
-    description: "Portfólio de Eduardo de Brito, desenvolvedor Fullstack.",
+    title: "Eduardo de Brito | Full Stack Developer",
+    description: "Desenvolvedor Full Stack com foco em software seguro, da interface à API.",
     url: "https://outzdev.me",
     siteName: "outz.dev",
     locale: "pt_BR",
+    alternateLocale: ["en_US"],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eduardo de Brito - Fullstack Developer",
-    description: "Fullstack Developer & Cybersecurity Enthusiast",
+    title: "Eduardo de Brito | Full Stack Developer",
+    description: "Desenvolvedor Full Stack com foco em software seguro, da interface à API.",
   },
 }
+// Dados estruturados para o Google entender quem é o dono do site
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Eduardo de Brito Soares",
+  alternateName: "outz",
+  url: "https://outzdev.me",
+  jobTitle: "Full Stack Developer",
+  email: "mailto:du.ebrits@gmail.com",
+  sameAs: ["https://www.linkedin.com/in/duebrits-dev/", "https://github.com/outz1"],
+  knowsAbout: [
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "NestJS",
+    "Python",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "Application Security",
+  ],
+}
+
 export const viewport: Viewport = {
   themeColor: "#1a1a1a",
 }
@@ -55,8 +82,12 @@ export default function RootLayout({
     // pois evita erros de hidratação entre o servidor (que não sabe o tema) e o cliente.
     <html lang="pt-BR" className={`${playfair.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased overflow-x-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <div className="noise-overlay" />
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>
     </html>

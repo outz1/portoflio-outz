@@ -1,32 +1,36 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
+import type { Dictionary } from "@/lib/translations"
+import { useLanguage } from "./language-provider"
 
-const skillGroups = [
+const getSkillGroups = (t: Dictionary["skills"]) => [
   {
     number: "01",
-    title: "Principal",
+    title: t.groups[0],
     skills: ["TypeScript", "JavaScript", "React", "Next.js", "Node.js", "Python"],
   },
   {
     number: "02",
-    title: "Backend & dados",
+    title: t.groups[1],
     skills: ["REST APIs", "JWT", "SQL", "Redis", "Swagger", "OpenAPI"],
   },
   {
     number: "03",
-    title: "Ferramentas",
-    skills: ["Git", "Gitflow", "Docker", "Linux", "Postman", "DBeaver", "IA para desenvolvimento"],
+    title: t.groups[2],
+    skills: ["Git", "Gitflow", "Docker", "Linux", "Postman", "DBeaver", t.aiTooling],
   },
   {
     number: "04",
-    title: "Produto & interface",
-    skills: ["Tailwind CSS", "shadcn/ui", "UI/UX", "SEO técnico"],
+    title: t.groups[3],
+    skills: ["Tailwind CSS", "shadcn/ui", "UI/UX", t.seo],
   },
 ]
 
 export function TechMarquee() {
   const reduceMotion = useReducedMotion()
+  const { t } = useLanguage()
+  const skillGroups = getSkillGroups(t.skills)
 
   return (
     <section className="relative px-8 py-24 md:px-12 md:py-32" aria-labelledby="skills-title">
@@ -37,16 +41,16 @@ export function TechMarquee() {
         transition={{ duration: 0.8 }}
         className="mb-12 md:mb-16"
       >
-        <p className="mb-4 font-mono text-xs tracking-[0.3em] text-muted-foreground">competências</p>
+        <p className="mb-4 font-mono text-xs tracking-[0.3em] text-muted-foreground">{t.skills.eyebrow}</p>
         <h2 id="skills-title" className="font-sans text-3xl font-light italic md:text-5xl">
-          TECNOLOGIAS &amp; FERRAMENTAS
+          {t.skills.title}
         </h2>
       </motion.div>
 
       <div className="border-t border-white/10">
         {skillGroups.map((group, index) => (
           <motion.div
-            key={group.title}
+            key={group.number}
             initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}

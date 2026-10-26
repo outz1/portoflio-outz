@@ -4,51 +4,11 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { motion, useMotionValue, useSpring } from "framer-motion"
-
-const projects = [
-  {
-    title: "ELO Júnior",
-    tags: ["Fullstack", "Automação", "Liderança"],
-    image: "/const/elo.avif",
-    year: "2025",
-    type: "Experiência",
-    link: "#",
-    description:
-      "Responsável técnico pelo desenvolvimento de aplicações web e automações, garantindo a qualidade e a eficiência dos processos.",
-  },
-  {
-    title: "Labex",
-    tags: ["Next.JS", "Vercel", "Typescript"],
-    image: "/const/labex.jpeg",
-    year: "2025",
-    type: "Experiência",
-    link: "https://labex-website.vercel.app/",
-    description:
-      "Desenvolvimento de uma aplicação web para uma empresa de medicina laboratorial, implementado com Next.js e deploy na Vercel. Foi utilizado conceitos de UI/UX design, SEO técnico e otimização de performance.",
-  },
-  {
-    title: "Omnia",
-    tags: ["Nest.JS", "IA", "WhatsApp"],
-    image: "/const/omnia.png",
-    year: "2026",
-    type: "Projeto",
-    link: "https://github.com/insignia-corp/omnia",
-    description:
-      "Agente de IA que avisa o dono de mercadinho pelo WhatsApp o que importa no negócio: margem, reajuste de fornecedor, giro e produtos parados. Lê notas de compra com visão, calcula as métricas em funções determinísticas e um verificador confere cada número antes do envio. Feito com Nest.js, PostgreSQL, Redis + BullMQ e Docker para o hackathon AKCIT Camp.",
-  },
-  {
-    title: "Evento Gamificado",
-    tags: ["TypeScript", "Redis", "API"],
-    image: "/const/inf.jpg",
-    year: "2026",
-    type: "Projeto",
-    link: "https://github.com/outz1/Projeto-CS",
-    description:
-      "Projeto para um evento da universidade com elementos de gamificação e scoreboard iterativo, foi feito com TypeScript e UptashRedis. Além de contar com práticas de desenvolvimento ágil e metodologias de entrega contínua e segurança de endpoints.",
-  },
-]
+import { projects } from "@/lib/translations"
+import { useLanguage } from "./language-provider"
 
 export function Works() {
+  const { language, t } = useLanguage()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set())
   const containerRef = useRef<HTMLDivElement>(null)
@@ -93,14 +53,19 @@ export function Works() {
         transition={{ duration: 0.8 }}
         className="mb-24"
       >
-        <p className="font-mono text-xs tracking-[0.3em] text-muted-foreground mb-4">alguns pontos da minha trajetória</p>
-        <h2 className="font-sans text-3xl md:text-5xl font-light italic">EXPERIÊNCIAS E PROJETOS PESSOAIS</h2>
+        <p className="font-mono text-xs tracking-[0.3em] text-muted-foreground mb-4">{t.works.eyebrow}</p>
+        <h2 className="font-sans text-3xl md:text-5xl font-light italic">{t.works.title}</h2>
       </motion.div>
 
       {/* Projects List */}
       <div ref={containerRef} onMouseMove={handleMouseMove} className="relative">
         {projects.map((project, index) => {
           const isExpanded = expandedIndices.has(index)
+          // Experiências não têm link: o card vira um bloco sem navegação
+          const Wrapper = project.link ? "a" : "div"
+          const linkProps = project.link
+            ? { href: project.link, target: "_blank", rel: "noopener noreferrer", "data-cursor-hover": true }
+            : {}
 
           return (
             <motion.div
@@ -115,11 +80,8 @@ export function Works() {
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-cursor-hover
+              <Wrapper
+                {...linkProps}
                 className="group flex flex-col md:flex-row md:items-center justify-between gap-4"
               >
                 {/* Year + Type badge */}
@@ -129,12 +91,12 @@ export function Works() {
                   </span>
                   <span
                     className={`font-mono text-[10px] tracking-wider px-2 py-0.5 rounded-full border ${
-                      project.type === "Projeto"
+                      project.type === "project"
                         ? "border-[#A1AEB1]/40 text-[#A1AEB1]/80"
                         : "border-[#FF5F1F]/40 text-[#FF5F1F]/80"
                     }`}
                   >
-                    {project.type}
+                    {t.works.types[project.type]}
                   </span>
                 </div>
 
@@ -151,7 +113,7 @@ export function Works() {
 
                 {/* Tags */}
                 <div className="flex gap-2 flex-wrap order-2 md:order-none">
-                  {project.tags.map((tag) => (
+                  {(Array.isArray(project.tags) ? project.tags : project.tags[language]).map((tag) => (
                     <span
                       key={tag}
                       className="font-mono text-[10px] tracking-wider px-3 py-1 border border-white/20 rounded-full text-muted-foreground"
@@ -160,7 +122,7 @@ export function Works() {
                     </span>
                   ))}
                 </div>
-              </a>
+              </Wrapper>
 
               {/* Texto expansível na parte inferior do card */}
               <motion.div
@@ -174,7 +136,7 @@ export function Works() {
                 className="overflow-hidden"
               >
                 <p className="font-mono text-sm text-muted-foreground leading-relaxed max-w-2xl">
-                  {project.description}
+                  {project.description[language]}
                 </p>
               </motion.div>
             </motion.div>
