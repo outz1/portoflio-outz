@@ -27,14 +27,14 @@ const projects = [
       "Desenvolvimento de uma aplicação web para uma empresa de medicina laboratorial, implementado com Next.js e deploy na Vercel. Foi utilizado conceitos de UI/UX design, SEO técnico e otimização de performance.",
   },
   {
-    title: "Game Library",
-    tags: ["Backend", "Nest.JS", "Swagger"],
-    image: "/const/swagger.jpg",
-    year: "2025",
+    title: "Omnia",
+    tags: ["Nest.JS", "IA", "WhatsApp"],
+    image: "/const/omnia.png",
+    year: "2026",
     type: "Projeto",
-    link: "https://github.com/outz1/backend-lib-games",
+    link: "https://github.com/insignia-corp/omnia",
     description:
-      "Backend de uma aplicação de biblioteca de jogos, foi implementado com Nest.js e Swagger. Foi feito com foco no aprendizado de conceitos de Rest API e CORS, permitindo a integração com diferentes serviço, foi utilizado o mock de dados para testes.",
+      "Agente de IA que avisa o dono de mercadinho pelo WhatsApp o que importa no negócio: margem, reajuste de fornecedor, giro e produtos parados. Lê notas de compra com visão, calcula as métricas em funções determinísticas e um verificador confere cada número antes do envio. Feito com Nest.js, PostgreSQL, Redis + BullMQ e Docker para o hackathon AKCIT Camp.",
   },
   {
     title: "Evento Gamificado",
