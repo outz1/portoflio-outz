@@ -220,7 +220,7 @@ export function SentientSphere() {
   if (!mounted) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <div className="h-64 w-64 rounded-full border border-border motion-safe:animate-pulse" />
+        <div className="w-64 h-64 rounded-full border border-white/10 animate-pulse" />
       </div>
     )
   }

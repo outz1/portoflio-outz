@@ -13,7 +13,7 @@ function LanguageToggle() {
       onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
       data-cursor-hover
       aria-label={t.nav.switchLanguage}
-      className="flex min-h-9 items-center gap-1.5 border border-border px-3 py-1.5 font-mono text-xs transition-colors hover:border-muted-foreground"
+      className="flex min-h-9 items-center gap-1.5 border border-white/15 px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors hover:border-white/35"
     >
       <span className={language === "pt" ? "text-foreground" : "text-muted-foreground"}>PT</span>
       <span aria-hidden="true" className="text-muted-foreground/50">/</span>
@@ -59,7 +59,7 @@ export function Navbar() {
     <>
       <a
         href="#content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[10001] focus:bg-accent focus:px-4 focus:py-3 focus:text-sm focus:text-accent-foreground"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[10001] focus:bg-[#ff5f1f] focus:px-4 focus:py-3 focus:font-mono focus:text-xs focus:tracking-widest focus:text-[#050505]"
       >
         {t.nav.skipToContent}
       </a>
@@ -67,11 +67,11 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 border-b transition-[background-color,border-color] duration-500 ${
-          isScrolled ? "border-border bg-background" : "border-transparent"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled ? "bg-background/90 border-b border-border" : ""
         }`}
       >
-        <nav className="flex items-center justify-between px-6 py-4 md:px-12 md:py-5">
+        <nav className="flex items-center justify-between px-6 py-4 my-0 md:px-12 md:py-5">
           {/* Logo */}
           <a
             href="#"
@@ -82,19 +82,20 @@ export function Navbar() {
             aria-label={t.nav.backToTop}
             className="group flex min-h-11 items-center gap-2"
           >
-            <span aria-hidden="true" className="font-mono text-lg text-muted-foreground">&lt;/&gt;</span>
+            <span aria-hidden="true" className="font-mono text-lg tracking-widest text-muted-foreground">&lt;/&gt;</span>
           </a>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {navLinks.map((link, index) => (
               <li key={link.label}>
                 <button
                   onClick={() => scrollToSection(link.href)}
-                  className="group relative text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                  className="group relative font-mono text-xs tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-300"
                 >
-                  {link.label}
-                  <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 group-hover:scale-x-100" />
+                  <span aria-hidden="true" className="text-[#ff5f1f] mr-1">0{index + 1}</span>
+                  {link.label.toUpperCase()}
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground group-hover:w-full transition-all duration-300" />
                 </button>
               </li>
             ))}
@@ -103,8 +104,11 @@ export function Navbar() {
           {/* Status Indicator */}
           <div className="hidden md:flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <span aria-hidden="true" className="h-2 w-2 rounded-full bg-accent" />
-              <span className="text-sm text-muted-foreground">{t.nav.status}</span>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5f1f] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dbdbdb]" />
+              </span>
+              <span className="font-mono text-xs tracking-wider text-muted-foreground">{t.nav.status}</span>
             </div>
             <LanguageToggle />
           </div>
@@ -146,7 +150,7 @@ export function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             id="mobile-menu"
-            className="fixed inset-0 z-40 bg-background md:hidden"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg md:hidden"
           >
             <nav className="flex flex-col items-center justify-center h-full gap-8">
               {navLinks.map((link, index) => (
@@ -157,8 +161,9 @@ export function Navbar() {
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => scrollToSection(link.href)}
-                  className="font-display text-4xl tracking-tight text-foreground"
+                  className="group text-4xl font-sans tracking-tight text-foreground"
                 >
+                  <span aria-hidden="true" className="text-[#ff5f1f] font-mono text-sm mr-2">0{index + 1}</span>
                   {link.label}
                 </motion.button>
               ))}
