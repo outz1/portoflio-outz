@@ -8,39 +8,70 @@ export function About() {
   const { t } = useLanguage()
 
   return (
-    <section id="about" className="relative px-6 py-24 md:px-12 md:py-36">
-      <div className="grid gap-10 md:grid-cols-12 md:gap-12">
-        <h2 className="text-balance font-display text-4xl font-normal leading-tight md:col-span-4 md:text-5xl">
+    <section id="about" className="relative overflow-hidden px-8 py-24 md:px-12 md:py-32">
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.8 }}
+      >
+        <p className="mb-4 font-mono text-xs tracking-[0.3em] text-muted-foreground">{t.about.eyebrow}</p>
+        <h2 className="max-w-4xl font-sans text-3xl font-light italic md:text-5xl">
           {t.about.title}
         </h2>
+      </motion.div>
+
+      <div className="mt-16 grid gap-10 border-t border-white/10 pt-10 md:grid-cols-[0.7fr_1.3fr] md:gap-20 md:pt-14">
+        <p className="font-mono text-xs leading-relaxed tracking-[0.18em] text-[#FF5F1F]">
+          FULL STACK DEVELOPMENT
+          <br />
+          &amp; APPLICATION SECURITY
+        </p>
 
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="space-y-6 md:col-span-7 md:col-start-6"
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="space-y-6"
         >
-          <p className="text-pretty text-2xl leading-snug text-foreground md:text-3xl">{t.about.lead}</p>
-          <p className="max-w-[65ch] text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p className="max-w-3xl font-sans text-2xl font-light leading-snug text-white/90 md:text-4xl">
+            {t.about.lead}
+          </p>
+          <p className="max-w-2xl font-mono text-sm leading-relaxed text-muted-foreground">
             {t.about.body}
           </p>
         </motion.div>
       </div>
 
-      <div className="mt-24 grid gap-6 md:mt-32 md:grid-cols-12 md:gap-12">
-        <h3 className="font-mono text-sm text-accent md:col-span-4">{t.about.activitiesTitle}</h3>
-        <dl className="divide-y divide-border border-y border-border md:col-span-7 md:col-start-6">
-          {t.about.activities.map((activity) => (
-            <div
+      <div className="mt-16 grid border-l border-t border-white/10 sm:grid-cols-2 lg:grid-cols-4">
+        {t.about.principles.map((principle, index) => (
+          <div key={principle} className="border-b border-r border-white/10 p-5 md:p-6">
+            <span className="font-mono text-[10px] tracking-widest text-muted-foreground">
+              0{index + 1}
+            </span>
+            <p className="mt-8 font-sans text-xl font-light italic text-white/80">{principle}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-16 grid gap-6 md:grid-cols-[0.7fr_1.3fr] md:gap-20">
+        <p className="font-mono text-xs tracking-[0.18em] text-[#FF5F1F]">{t.about.activitiesTitle}</p>
+        <div className="grid border-l border-t border-white/10 sm:grid-cols-2">
+          {t.about.activities.map((activity, index) => (
+            <motion.div
               key={activity.title}
-              className="grid gap-2 py-6 sm:grid-cols-[10rem_1fr] sm:gap-8"
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, delay: index * 0.08 }}
+              className="border-b border-r border-white/10 p-5 md:p-6"
             >
-              <dt className="font-display text-2xl">{activity.title}</dt>
-              <dd className="text-pretty text-base leading-relaxed text-muted-foreground">{activity.description}</dd>
-            </div>
+              <h3 className="font-sans text-2xl font-light italic">{activity.title}</h3>
+              <p className="mt-3 font-mono text-xs leading-relaxed text-muted-foreground">{activity.description}</p>
+            </motion.div>
           ))}
-        </dl>
+        </div>
       </div>
     </section>
   )
