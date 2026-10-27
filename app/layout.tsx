@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Playfair_Display, Geist_Mono } from "next/font/google"
+import { Playfair_Display, Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/components/language-provider"
 import "./global.css"
@@ -8,6 +8,12 @@ import "./global.css"
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  display: "swap",
+})
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
   display: "swap",
 })
 
@@ -69,7 +75,7 @@ const personJsonLd = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#1a1a1a",
+  themeColor: "#050505",
 }
 
 export default function RootLayout({
@@ -80,7 +86,7 @@ export default function RootLayout({
   return (
     // suppressHydrationWarning é vital se você for adicionar next-themes (dark mode) no futuro,
     // pois evita erros de hidratação entre o servidor (que não sabe o tema) e o cliente.
-    <html lang="pt-BR" className={`${playfair.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${playfair.variable} ${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased overflow-x-hidden">
         <script
           type="application/ld+json"

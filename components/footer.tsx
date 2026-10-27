@@ -26,7 +26,6 @@ const socialLinks = [
 
 export function Footer() {
   const { t } = useLanguage()
-  const [time, setTime] = useState("")
   const [isHovered, setIsHovered] = useState(false)
   const [copied, setCopied] = useState(false)
   const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -49,22 +48,6 @@ export function Footer() {
       .catch(() => {})
   }
 
-  useEffect(() => {
-    // Horário de Brasília, igual para todos os visitantes
-    const formatter = new Intl.DateTimeFormat("pt-BR", {
-      timeZone: "America/Sao_Paulo",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    })
-    const updateTime = () => setTime(formatter.format(new Date()))
-
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    return () => clearInterval(interval)
-  }, [])
-
   return (
     <footer className="relative">
       {/* Main CTA */}
@@ -80,42 +63,38 @@ export function Footer() {
       >
         {/* Background Curtain */}
         <motion.div
-          className="absolute inset-0 bg-[#FF5F1F]"
+          className="absolute inset-0 bg-accent"
           initial={{ y: "100%" }}
           animate={{ y: isHovered ? "0%" : "100%" }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         />
 
         {/* Content */}
-        <div className="relative py-16 md:py-24 px-8 md:px-12 border-t border-white/10">
+        <div className="relative border-t border-border px-6 py-16 md:px-12 md:py-24">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
-              <motion.h2
-                className="font-sans text-4xl md:text-6xl lg:text-8xl font-light tracking-tight text-center md:text-left"
-                animate={{
-                  color: isHovered ? "#050505" : "#fafafa",
-                }}
-                transition={{ duration: 0.3 }}
+              <h2
+                className={`text-balance font-display text-5xl font-normal tracking-tight text-center transition-colors duration-300 md:text-left md:text-7xl lg:text-8xl ${
+                  isHovered ? "text-accent-foreground" : "text-foreground"
+                }`}
               >
                 {t.footer.ctaStart} <span className="italic">{t.footer.ctaEmphasis}</span>
-              </motion.h2>
-              <motion.span
-                className="mt-4 block text-center font-mono text-xs tracking-widest md:text-left md:text-sm"
-                animate={{ color: isHovered ? "#050505" : "#a1a1a1" }}
-                transition={{ duration: 0.3 }}
+              </h2>
+              <span
+                className={`mt-4 block text-center font-mono text-sm transition-colors duration-300 md:text-left ${
+                  isHovered ? "text-accent-foreground" : "text-muted-foreground"
+                }`}
                 aria-live="polite"
               >
                 {EMAIL}
                 {copied && ` · ${t.footer.emailCopied}`}
-              </motion.span>
+              </span>
             </div>
 
             <motion.div
-              animate={{
-                rotate: isHovered ? 45 : 0,
-                color: isHovered ? "#050505" : "#fafafa",
-              }}
+              animate={{ rotate: isHovered ? 45 : 0 }}
               transition={{ duration: 0.3 }}
+              className={`transition-colors duration-300 ${isHovered ? "text-accent-foreground" : "text-foreground"}`}
             >
               <ArrowUpRight className="w-12 h-12 md:w-16 md:h-16" />
             </motion.div>
@@ -124,16 +103,9 @@ export function Footer() {
       </motion.a>
 
       {/* Footer Info */}
-      <div className="px-8 md:px-12 py-8 border-t border-white/10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Local Time */}
-          <div className="font-mono text-xs tracking-widest text-muted-foreground">
-            <span className="mr-2">{t.footer.localTime}</span>
-            <span className="text-white tabular-nums">{time}</span>
-          </div>
-
-          {/* Links */}
-          <div id='contact' className="flex gap-8">
+      <div className="border-t border-border px-6 py-6 md:px-12">
+        <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
+          <div id="contact" className="flex gap-8">
             {socialLinks.map((link) => (
               <a
                 key={link.name}
@@ -141,15 +113,14 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor-hover
-                className="inline-flex min-h-11 items-center font-mono text-xs tracking-widest text-muted-foreground hover:text-[#FF5F1F] transition-colors duration-300"
+                className="inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-300 hover:text-accent"
               >
                 {link.name}
               </a>
             ))}
           </div>
 
-          {/* Copyright */}
-          <p className="font-mono text-xs tracking-widest text-muted-foreground">© {new Date().getFullYear()} outzdev.me</p>
+          <p className="font-mono text-xs text-muted-foreground">© {new Date().getFullYear()} outzdev.me</p>
         </div>
       </div>
     </footer>
